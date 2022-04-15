@@ -37,6 +37,7 @@ export class AuthService {
             this.setID(data[0]['user_id']);
             this.setAvatar(data[0]['avatar_path']);
             this.setName(data[0]['name']);
+            // this.setName(data[0]['name']);
             this.getLoggedInRigth.emit(true);
             return data;
           }));
