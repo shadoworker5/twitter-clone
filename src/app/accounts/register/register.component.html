@@ -1,0 +1,70 @@
+<div class="row">
+    <div class="col-sm-4 col-sm-offset-4">
+        <h2 *ngIf="error_message">
+            <p class="text-danger text-center" *ngFor="let test of error_message">  {{ test }}  </p>
+        </h2>
+
+        <h2 class="text-center"> Register form </h2>
+
+        <form [formGroup]="register_form" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label for="name" class="control-label"> Full name </label>
+                <input type="text" id="name" class="form-control" formControlName="name"/>
+                
+                <div *ngIf="get_error('name').touched && get_error('name').invalid" class="text-danger">
+                    <small *ngIf="get_error('name').errors?.required"> Name is required </small>
+                    <small *ngIf="get_error('name').errors?.minlength"> Name must containt 5 caracters and more</small>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="pseudo" class="control-label"> Pseudo </label>
+                <input type="text" id="pseudo" class="form-control" formControlName="pseudo"/>
+
+                <div *ngIf="get_error('pseudo').touched && get_error('pseudo').invalid" class="text-danger">
+                    <small *ngIf="get_error('pseudo').errors?.required"> Pseudo is required </small>
+                    <small *ngIf="get_error('pseudo').errors?.minlength"> Pseudo must containt 3 caracters and more</small>
+                </div>
+                <!-- <small *ngIf="is_already_use(get_error('pseudo').value)" class="text-danger"> This e-amil is already use </small> -->
+            </div>
+            
+            <div class="form-group">
+                <label for="email" class="control-label"> E-mail </label>
+                <input type="email" id="email" class="form-control" formControlName="email"/>
+
+                <div *ngIf="get_error('email').touched && get_error('email').invalid" class="text-danger">
+                    <small *ngIf="get_error('email').errors?.required"> E-mail is required </small>
+                    <small *ngIf="get_error('email').errors?.email"> E-mail patern is example@example.com </small>
+                </div>
+                <!-- <small *ngIf="is_already_use(get_error('email').value)" class="text-danger"> This e-amil is already use </small> -->
+            </div>
+
+            <div class="form-group">
+                <label for="password" class="control-label"> Password </label>
+                <input type="password" id="password" class="form-control" formControlName="password"/>
+
+                <div *ngIf="get_error('password').touched && get_error('password').invalid" class="text-danger">
+                    <small *ngIf="get_error('password').errors?.required"> Password is required </small>
+                    <small *ngIf="get_error('password').errors?.minlength"> Password must contain 8 or more caracters </small>
+                </div>
+                <small *ngIf="error_password !== ''" class="text-danger"> {{ error_password }} </small>
+            </div>
+
+            <div class="form-group">
+                <label for="password_confirm" class="control-label"> Confirm password</label>
+                <input type="password" id="password_confirm" class="form-control" formControlName="password_confirm"/>
+
+                <div *ngIf="get_error('password_confirm').touched && get_error('password_confirm').invalid" class="text-danger">
+                    <small *ngIf="get_error('password_confirm').errors?.required"> Confirm password is required </small>
+                    <small *ngIf="get_error('password_confirm').errors?.minlength"> Confirm password must be equal with password  </small>
+                </div>
+                <small *ngIf="error_password !== ''" class="text-danger"> {{ error_password }} </small>
+            </div>
+            
+            <div class="form-group">
+                <a routerLink="/accounts/login"> Login </a>
+                <button class="btn btn-primary pull-right" type="submit" [disabled]="register_form.invalid"> Register now </button>
+            </div>
+        </form>
+    </div>
+</div>

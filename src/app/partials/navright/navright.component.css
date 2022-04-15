@@ -1,0 +1,98 @@
+.list-avatar{
+	border-radius: 100%;
+	height: 50px;
+	width: 50px;
+	margin-left: -50px;
+}
+
+.title{
+    font-size: 20px;
+}
+
+.right-nav-user-list{
+	border: 1px solid #eeeeee;
+	height: 320px;
+	margin-bottom: 1em;
+	overflow: hidden;
+}
+
+.right-nav-user-list:hover{
+	overflow: auto;
+	overflow-x: hidden;
+}
+
+.right-nav-friend-list{
+	border: 2px solid #eeeeee;
+	height: 350px;
+	overflow: hidden;
+}
+
+.right-nav-friend-list:hover{
+	overflow: auto;
+	overflow-x: hidden;
+}
+
+a{
+	color: white;
+}
+
+a:hover, a:focus{
+    text-decoration: none;
+}
+.new{
+  margin-bottom: 5px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+#chat{
+    position: fixed;
+	bottom: -1.2em;
+	width: 500px;
+	height: 30px;	
+    border: 2px solid gainsboro;
+	/* z-index: 203930; */
+    /* right: 0;
+    background: #3b5998; */
+    /* border-radius: 10px 0 0 0 ;
+    opacity: 0.9; */
+}
+
+.panel-heading:hover{
+    opacity: 1;
+    cursor: pointer;
+}
+
+.chat-content{
+	height: 333px;
+	overflow: hidden;
+}
+
+.chat-content:hover{
+	overflow: auto;
+	overflow-x: hidden;
+}
+
+.response{
+	/* border: 1px solid rgb(34, 145, 189); */
+	background: rgba(34, 171, 189, 0.561);
+	width: 500px;
+	border-radius: 20px;
+	text-align: justify;
+	color: white;
+}
+
+.me{
+	background: rgba(34, 189, 181, 0.938);
+	width: 500px;
+	border-radius: 20px;
+	text-align: justify;
+	color: white;
+}
+
+.avatar{
+	border-radius: 100%;
+	height: 50px;
+	width: 50px;
+	top: 0em;
+}

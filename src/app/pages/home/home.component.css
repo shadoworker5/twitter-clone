@@ -1,0 +1,45 @@
+.synopsis{
+    word-wrap: break-word;
+    text-align: justify;
+    font-size: 16px;
+    height: auto;
+    overflow: hidden;
+}
+.synopsis_100{
+    word-wrap: break-word;
+    text-align: justify;
+    font-size: 16px;
+    height: 100px;
+    overflow: hidden;
+}
+
+.avatar{
+    border-radius: 25px;
+}
+
+.sidebar-fixed{
+    position:fixed;
+    top:auto;
+    float:none!important;
+}
+
+.post_video{
+    height: 280px;
+}
+
+.position_video{
+    padding-bottom: 10em;
+    margin-left: 1em;
+    width:480px;
+    height:480px;
+}
+
+a{
+	color: white;
+}
+
+#refresh_page{
+    position:fixed;
+    top:auto;
+    margin-left: 18em;
+}

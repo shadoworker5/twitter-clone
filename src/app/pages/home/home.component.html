@@ -1,0 +1,79 @@
+<div class="row">
+    <div class="col-md-3 sidebar-fixed">
+        <app-navleft></app-navleft>
+    </div>
+    
+    <div id="page" class="col-md-5 col-md-offset-3">
+        <button id="refresh_page" class="btn hidden" (click)="refresh()"> Refresh page </button>
+        
+        <div class="jumbotron new" *ngFor="let comment of posts_list" style="background: rgb(34, 145, 189); color: white;">
+            <div class="title row">
+                <div class="col-md-1">
+                    <img [src]="comment.avatar" class="avatar" alt="profile">
+                </div>
+
+                <div class="col-md-9" style="margin-left: 1em;">
+                    <a [routerLink]="'/pages/profile/'+comment.user_id"> {{ comment.user_name }} </a> <br>
+                    <a [routerLink]="'/pages/profile/'+comment.user_id"><small> {{ "@"+comment.user_pseudo }} </small> </a> <br>
+                    <span class="timeago" title=""> {{ comment.created_at }} </span> <i class="fa fa-globe"></i>
+                </div>
+            </div>
+            
+            <div>
+                <p *ngIf="comment.type_post == 'comment'" [ngClass]="{'synopsis': true, 'synopsis_100': comment.synopsis.length > 100 }" [id]="'comment_'+comment.comment_id">
+                    {{ comment.synopsis }}
+                </p>
+
+                <p *ngIf="comment.type_post == 'video'" [id]="'comment_'+comment.comment_id" class="post_video">
+                    <video [src]="comment.synopsis" 
+                            [id]="'video_'+comment.comment_id"
+                            class="position_video"
+                            controls
+                            loop></video>
+                </p>
+
+                <p *ngIf="comment.type_post == 'image'" [id]="'comment_'+comment.comment_id">
+                    {{ comment.synopsis }}
+                    <img [src]="comment.synopsis">
+                </p>
+            </div>
+            
+            <div *ngIf="comment.synopsis.length > 100 && comment.type_post == 'comment'">
+                <a style="cursor: pointer; text-decoration: none;" (click)="learn_more(comment.comment_id)" [id]="'hide_btn_'+comment.comment_id"> Read more &raquo; </a>
+                <br>
+            </div>
+            
+            <span>
+                <button class="btn btn-primary fa-2x" data-method="PUT" (click)="like_post(comment.comment_id)">
+                    <strong> {{ post_service.getLikeCount(comment.like) }} </strong>
+                </button>
+
+                <button class="btn btn-danger fa-2x" data-method="PUT" (click)="dislike_post(comment.comment_id)">
+                    <strong> {{ post_service.getDisLikeCount(comment.dislike) }} </strong>
+                </button>
+                
+                <button class="btn btn-warning fa-2x" data-method="PUT" (click)="dislike_post(comment.comment_id)">
+                    <strong> 0 </strong>
+                </button>
+                
+                <!-- <form  [formGroup]="reply_post" (ngSubmit)="submit_reply(comment.comment_id)">
+                    <div class="input-group">
+                        <input type="text" [name]="'response_'+comment.comment_id" minlength="2" class="form-control" disabled/>
+                        <input type="hidden" [name]="'post_id_'+comment.comment_id" [value]="comment.comment_id">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="submit" disabled> Reply </button>
+                        </span>
+                    </div>
+                </form> -->
+            </span>
+
+            <!-- <span class="fa-2x position-center">
+                <i class="fa fa-share"></i> Share            
+            </span> -->
+        </div>
+    </div>    
+
+    <div class="col-md-4 col-md-offset-8 sidebar-fixed">
+        <app-navright></app-navright>
+    </div>
+</div>

@@ -1,0 +1,67 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title"> Who to follow? </h3>
+    </div>
+
+    <div class="panel-body right-nav-user-list">
+        <div class="new jumbotron" *ngFor="let user of user_list" style="background: rgb(34, 145, 189);">
+            <div class="title row">
+                <div class="col-md-1">
+                    <img [src]="user.avatar" class="list-avatar" alt="profile">
+                </div>
+
+                <div class="col-md-7">
+                    <a [routerLink]="'/pages/profile/'+user.id"> {{ user.name }} </a> <br>
+                    
+                    <small> <a [routerLink]="'/pages/profile/'+user.id"> {{ '@'+user.pseudo }} </a> </small>
+                </div>
+
+                <div class="col-md-3">
+                    <button (click)="follow_him(user.id)" class="btn btn-primary">
+                        <strong> Follow </strong>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="panel panel-default" id="chat">
+    <div class="panel-heading" (click)="openDialog()">
+        <h3 class="panel-title"> Chat bot </h3>
+    </div>
+
+    <div>
+        <div class="chat-content" id="chat-content">
+            
+            <div class="new response">
+                <img [src]="'http://127.0.0.1/data/avatar/avatar.png'" class="avatar" alt="profile">
+                <span>
+                    Jarvis
+                    <small> 15:30:23 </small>
+                </span>
+                <br>
+                
+                <p style="margin-left: 1em; margin-right: 1em;">
+                </p>
+            </div>
+            <div class="new me">
+                <span class="pull-right">
+                    Me
+                    <img [src]="'http://127.0.0.1/data/avatar/avatar.png'" class="avatar" alt="profile">
+                </span>
+                <br>
+                
+                <p style="margin-left: 1em; margin-right: 1em;">
+                    Hello. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta autem ab eius explicabo.
+                    Ullam consequuntur earum fugit, molestiae nostrum officiis? Minus ex corrupti eveniet impedit facere quo adipisci, est at.                
+                </p>
+            </div>
+        </div>
+        
+        <div>
+            <input name="message" id="message" class="form-control"/>
+            <button type="submit" (click)="reply()" class="btn btn-primary pull-right"> Send</button>
+        </div>
+    </div>
+</div> -->

@@ -1,0 +1,16 @@
+<div class="fixed">
+    <h2 class="text-center"> Share your experience </h2>
+    
+    <form [formGroup]="tweet" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <textarea name="content" id="content" cols="30" rows="10" class="form-control" formControlName="content"></textarea>
+        </div>
+        
+        <div class="form-group">              
+            <h2>
+                <p class="text-danger text-center">  {{ error_message }}  </p>
+            </h2>
+            <button class="btn btn-primary pull-right" type="submit" [disabled]="tweet.invalid"> Share </button>
+        </div>
+    </form>
+</div>

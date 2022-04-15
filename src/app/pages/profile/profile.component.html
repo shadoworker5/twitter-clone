@@ -1,0 +1,188 @@
+<div class="row">
+    <div class="col-md-3 sidebar-fixed">
+        <app-navleft></app-navleft>
+
+        <div>
+            <br><br>
+            <hr>
+            
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-info text-center h2"> Account infos </li>
+                <li class="list-group-item"> <strong> Name: </strong> {{ user_info.name }} </li>
+                <li class="list-group-item"> <strong> Pseudo: </strong> {{ user_info.pseudo }} </li>
+                <li class="list-group-item"> <strong> E-mail: </strong> {{ user_info.email }} </li>
+                <li class="list-group-item"> <strong> Followers: </strong> {{ user_info.followers }} </li>
+                <li class="list-group-item"> <strong> Following: </strong> {{ user_info.followings }} </li>
+            </ul>
+
+            <!-- <button class="btn btn-primary btn-block" (click)="event_modify()"> Modify </button> -->
+        </div>
+    </div>
+    
+    <div class="col-md-6 col-md-offset-3">
+        <!-- <button> Refresh </button> -->
+        
+        <div *ngIf="!modify && posts_list.length > 0">
+            <div class="jumbotron new" *ngFor="let comment of posts_list" style="background: rgb(34, 145, 189); color: white;">
+                <div class="title row">
+                    <div class="col-md-1">
+                        <img [src]="comment.avatar" class="avatar" alt="profile">
+                    </div>
+    
+                    <div class="col-md-9">
+                        <a [routerLink]="'/pages/profile/'+comment.user_id"> {{ comment.user_name }} </a> <br>
+                        <a href=""><small> {{ "@"+comment.user_pseudo}} </small> </a> <br>
+                        <span class="timeago" title=""> {{ comment.created_at }} </span> <i class="fa fa-globe"></i>
+                    </div>
+                </div>
+                
+                <div>
+                    <p *ngIf="comment.type_post == 'comment'" [ngClass]="{'synopsis': true, 'synopsis_100': comment.synopsis.length > 100 }" [id]="'comment_'+comment.comment_id">
+                        {{ comment.synopsis }}
+                    </p>
+    
+                    <p *ngIf="comment.type_post == 'video'" [id]="'comment_'+comment.comment_id" class="post_video">
+                        <video [src]="comment.synopsis" 
+                                [id]="'video_'+comment.comment_id"
+                                class="position_video"
+                                controls
+                                loop></video>
+                    </p>
+    
+                    <p *ngIf="comment.type_post == 'image'" [id]="'comment_'+comment.comment_id">
+                        {{ comment.synopsis }}
+                        <img [src]="comment.synopsis">
+                    </p>
+                </div>
+                
+                <div *ngIf="comment.synopsis.length > 100 && comment.type_post == 'comment'">
+                    <a style="cursor: pointer; text-decoration: none;" (click)="learn_more(comment.comment_id)" [id]="'hide_btn_'+comment.comment_id"> Read more &raquo; </a>
+                    <br>
+                </div>
+                
+                <span>
+                    <button class="btn btn-primary fa-2x" data-method="PUT" (click)="like_post(comment.comment_id)">
+                        <strong> {{ post_service.getLikeCount(comment.like) }} </strong>
+                    </button>
+                    <button class="btn btn-danger fa-2x" data-method="PUT" (click)="dislike_post(comment.comment_id)">
+                        <strong> {{ post_service.getDisLikeCount(comment.dislike) }} </strong>
+                    </button>
+                    <button class="btn btn-warning fa-2x" data-method="PUT" (click)="dislike_post(comment.comment_id)">
+                        <strong> 0 </strong>
+                    </button>
+                    <!-- <ul class="nav navbar-nav">
+                        <li>
+                            
+                        </li>
+    
+                        <li>
+                        </li>
+                        <li>
+                        </li>
+                    </ul> -->
+                </span>
+    
+                <!-- <span class="fa-2x position-center">
+                    <i class="fa fa-share"></i> Share            
+                </span> -->
+            </div>
+        </div>
+
+        <div *ngIf="posts_list.length == 0" class="text-center h2 alert-info">
+            No twette found!!!
+        </div>
+
+        <div *ngIf="modify">
+            <h2 *ngIf="error_message">
+                <p class="text-danger text-center" *ngFor="let error of error_message">  {{ error }}  </p>
+            </h2>
+    
+            <h2 class="text-center"> My account </h2>
+    
+            <form [formGroup]="modify_form" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label for="name" class="control-label"> Full name </label>
+                    <input type="text" id="name" class="form-control" [value]="user_info.name" formControlName="name"/>
+                    
+                    <div *ngIf="get_error('name').touched && get_error('name').invalid" class="text-danger">
+                        <small *ngIf="get_error('name').errors?.required"> Name is required </small>
+                        <small *ngIf="get_error('name').errors?.minlength"> Name must containt 5 caracters and more</small>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="pseudo" class="control-label"> Pseudo </label>
+                    <input type="text" id="pseudo" class="form-control" [value]="user_info.pseudo" formControlName="pseudo"/>
+    
+                    <div *ngIf="get_error('pseudo').touched && get_error('pseudo').invalid" class="text-danger">
+                        <small *ngIf="get_error('pseudo').errors?.required"> Pseudo is required </small>
+                        <small *ngIf="get_error('pseudo').errors?.minlength"> Pseudo must containt 3 caracters and more</small>
+                    </div>
+                    <!-- <small *ngIf="is_already_use(get_error('pseudo').value)" class="text-danger"> This e-amil is already use </small> -->
+                </div>
+                
+                <div class="form-group">
+                    <label for="email" class="control-label"> E-mail </label>
+                    <input type="email" id="email" class="form-control" [value]="user_info.email" formControlName="email"/>
+    
+                    <div *ngIf="get_error('email').touched && get_error('email').invalid" class="text-danger">
+                        <small *ngIf="get_error('email').errors?.required"> E-mail is required </small>
+                        <small *ngIf="get_error('email').errors?.email"> E-mail patern is example@example.com </small>
+                    </div>
+                    <!-- <small *ngIf="is_already_use(get_error('email').value)" class="text-danger"> This e-amil is already use </small> -->
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn btn-primary pull-right" type="submit" [disabled]="modify_form.invalid"> Save </button>
+                </div>
+            </form>
+
+            <br><br><hr>
+
+            <h2 class="text-center"> Change password </h2>
+    
+            <!-- <form [formGroup]="modify_form">
+                <div class="form-group">
+                    <label for="password" class="control-label"> Old password </label>
+                    <input type="password" id="password_old" class="form-control" formControlName="password_old"/>
+    
+                    <div *ngIf="get_error('password').touched && get_error('password').invalid" class="text-danger">
+                        <small *ngIf="get_error('password').errors?.required"> Password is required </small>
+                        <small *ngIf="get_error('password').errors?.minlength"> Password must contain 8 or more caracters </small>
+                    </div>
+                    <small *ngIf="error_password !== ''" class="text-danger"> {{ error_password }} </small>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="control-label"> New password </label>
+                    <input type="password" id="password" class="form-control" formControlName="password"/>
+    
+                    <div *ngIf="get_error('password').touched && get_error('password').invalid" class="text-danger">
+                        <small *ngIf="get_error('password').errors?.required"> Password is required </small>
+                        <small *ngIf="get_error('password').errors?.minlength"> Password must contain 8 or more caracters </small>
+                    </div>
+                    <small *ngIf="error_password !== ''" class="text-danger"> {{ error_password }} </small>
+                </div>
+    
+                <div class="form-group">
+                    <label for="password_confirm" class="control-label"> Confirm password</label>
+                    <input type="password" id="password_confirm" class="form-control" formControlName="password_confirm"/>
+    
+                    <div *ngIf="get_error('password_confirm').touched && get_error('password_confirm').invalid" class="text-danger">
+                        <small *ngIf="get_error('password_confirm').errors?.required"> Confirm password is required </small>
+                        <small *ngIf="get_error('password_confirm').errors?.minlength"> Confirm password must be equal with password  </small>
+                    </div>
+                    <small *ngIf="error_password !== ''" class="text-danger"> {{ error_password }} </small>
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn btn-primary pull-right" type="submit" [disabled]="modify_form.invalid"> Save </button>
+                </div>
+            </form> -->
+        </div>
+    </div>    
+
+    <div class="col-md-3 col-md-offset-9 sidebar-fixed">
+        <!-- <app-navright></app-navright> -->
+    </div>
+</div>
